@@ -1,0 +1,58 @@
+---
+import CardSkill from "./CardSkill.astro";
+import Container from "./Container.astro";
+interface Skills {
+  title: string;
+  skills: Array<{ label: string; icon: string }>;
+  color: string;
+}
+const skills: Skills[] = [
+  {
+    title: "Frontend",
+    skills: [
+      { label: "HTML", icon: "html5.svg" },
+      { label: "CSS", icon: "css.svg" },
+      { label: "Javascript", icon: "javascript.svg" },
+      { label: "Typescript", icon: "typescript.svg" },
+      { label: "React", icon: "react.svg" },
+      { label: "Tailwindcss", icon: "tailwindcss.svg" },
+    ],
+    color: "text-blue-500",
+  },
+  {
+    title: "Backend",
+    skills: [
+      { label: "Node.js", icon: "node.svg" },
+      { label: "Express", icon: "express.svg" },
+      { label: "Python", icon: "python.svg" },
+    ],
+    color: "text-teal-600",
+  },
+  {
+    title: "Other",
+    skills: [
+      { label: "Git", icon: "gits.svg" },
+      { label: "MySQL", icon: "mysql.svg" },
+      { label: "Blender", icon: "blender.svg" },
+      {
+        label: "C++",
+        icon: "cplusplus.svg",
+      },
+    ],
+    color: "text-yellow-500",
+  },
+];
+---
+
+<Container>
+  <div class="md:py-24 py-16">
+    <h2 class="text-3xl font-semibold mb-4">Skills</h2>
+    <div class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+      {
+        skills.map(({ title, skills, color }) => (
+          <CardSkill title={title} skills={skills} color={color} />
+        ))
+      }
+    </div>
+  </div>
+</Container>

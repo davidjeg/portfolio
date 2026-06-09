@@ -1,11 +1,36 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import About from "../components/About.astro";
+import Contact from "../components/Contact.astro";
+import Skills from "../components/Skills.astro";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+  <Navbar />
+  <div class="min-h-screen flex items-center">
+    <div class="w-full max-w-6xl mx-auto px-4">
+      <p class="text-lg">Hi I'm</p>
+      <h1 class="text-7xl block font-semibold text-left -ml-1 tracking-wide">
+        David
+      </h1>
+      <h1
+        class="text-7xl text-blue-500 block font-semibold -ml-1 tracking-wide"
+      >
+        Encarnacion
+      </h1>
+      <p class="block text-xl font-semibold mt-4">Full Stack Web Developer</p>
+      <button
+        class="block bg-blue-500 p-4 rounded-md cursor-pointer mt-8
+		hover:bg-blue-600 active:bg-blue-700 transition"
+        >Contact Me</button
+      >
+    </div>
+  </div>
+  <About />
+  <Skills />
+  <Contact />
 </Layout>

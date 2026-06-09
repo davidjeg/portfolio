@@ -1,0 +1,29 @@
+---
+interface LinksProps {
+  label: string;
+}
+const links: LinksProps[] = [
+  { label: "About Me" },
+  { label: "Tech" },
+  { label: "Projects" },
+  { label: "Contact" },
+];
+---
+
+<div class="bg-black/40 backdrop-blur-2xl fixed inset-x-0">
+  <nav
+    class="flex justify-between h-14 items-center w-full max-w-6xl
+mx-auto px-4"
+  >
+    <a>Home</a>
+    <ul class="flex gap-6">
+      {
+        links.map(({ label }) => (
+          <a>
+            <li>{label}</li>
+          </a>
+        ))
+      }
+    </ul>
+  </nav>
+</div>
