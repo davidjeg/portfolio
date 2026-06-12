@@ -2,7 +2,7 @@
 
 ---
 
-<div id="canvas_container" class="absolute inset-0 bg-zinc-950 -z-10"></div>
+<div id="canvas_container" class="bg-zinc-950 h-full w-full flex-1"></div>
 
 <script>
   import * as THREE from "three";
@@ -10,11 +10,16 @@
 
   import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
   import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+  import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+  import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+  import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+  import { RectAreaLightUniformsLib } from "three/addons/lights/RectAreaLightUniformsLib.js";
   const canvas = document.querySelector<HTMLDivElement>("#canvas_container");
   const loader = new GLTFLoader();
   const gui = new GUI();
   const cameraFolder = gui.addFolder("Camera");
-  const modelPosition = gui.addFolder("model");
+
+  RectAreaLightUniformsLib.init();
 
   if (canvas) {
     const scene = new THREE.Scene();
@@ -25,19 +30,22 @@
       1000,
     );
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setClearColor("#09090B");
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      0.04,
+      0.01,
+      0.2,
+    );
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    composer.addPass(bloomPass);
+    composer.setSize(canvas.clientWidth, canvas.clientHeight);
+
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     canvas.appendChild(renderer.domElement);
     const controls = new OrbitControls(camera, renderer.domElement);
-
-    const light = new THREE.DirectionalLight(0xffffff, 5);
-    light.position.set(200, 100, 10);
-    scene.add(light);
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-
-    scene.add(ambientLight);
 
     let model: any;
     const video = document.createElement("video");
@@ -55,21 +63,12 @@
         scene.add(model);
         const screenArcade = model.getObjectByName("maquina_arcade_pantalla");
         if (screenArcade) {
-          console.log(screenArcade.geometry.attributes);
-          screenArcade.material = new THREE.MeshStandardMaterial({
+          screenArcade.material = new THREE.MeshBasicMaterial({
             map: videoTexture,
             side: THREE.DoubleSide,
           });
         }
-        // model.position.set(7.5, -1.5, 0);
-        // model.rotation.set(0, 2.65, 0);
-        // modelPosition.add(model.position, "x", -100, 100, 0.1);
-        // modelPosition.add(model.rotation, "x", -Math.PI, Math.PI, 0.01);
-        // modelPosition.add(model.rotation, "y", -Math.PI, Math.PI, 0.01);
-        // modelPosition.add(model.rotation, "z", -Math.PI, Math.PI, 0.01);
-
-        //modelPosition.open();
-        model.scale.set(1, 1, 1);
+        model.position.set(-3, -2.5, 0);
       },
 
       (progress) => {
@@ -80,17 +79,46 @@
       },
     );
 
+    const spotLight = new THREE.SpotLight(0xffffff, 1000);
+    spotLight.position.set(-5, 10, -3);
+    const spotlightPoitions = gui.addFolder("LightPos");
+    spotlightPoitions.add(spotLight.position, "x", -100, 100, 0.001);
+    spotlightPoitions.add(spotLight.position, "y", -100, 100, 0.001);
+    spotlightPoitions.add(spotLight.position, "z", -100, 100, 0.001);
+    spotlightPoitions.open();
+
+    spotLight.angle = Math.PI / 8;
+    spotLight.distance = 15;
+    spotlightPoitions.add(spotLight, "distance", -100, 100, 0.001);
+    spotlightPoitions.add(spotLight, "angle", -100, 100, 0.001);
+
+    spotLight.castShadow = true;
+
+    // 🔥 IMPORTANTE: target
+    spotLight.target.position.set(0, -8, 0.68);
+    spotlightPoitions.add(spotLight.target.position, "x", -100, 100, 0.01);
+    spotlightPoitions.add(spotLight.target.position, "y", -100, 100, 0.01);
+    spotlightPoitions.add(spotLight.target.position, "z", -100, 100, 0.01);
+    scene.add(spotLight.target);
+
+    scene.add(spotLight);
+
+    const helper = new THREE.AxesHelper();
+    scene.add(helper);
+    scene.background = new THREE.Color(0x09090b);
     cameraFolder.add(camera.position, "x", -100, 100, 0.1);
     cameraFolder.add(camera.position, "y", -100, 100, 0.1);
     cameraFolder.add(camera.position, "z", -100, 100, 0.1);
     cameraFolder.open();
-    camera.position.set(9, 9, 11);
+    camera.position.set(-6.5, 6, -6.5);
     controls.update();
+    scene.add(helper);
+
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
 
-      renderer.render(scene, camera);
+      composer.render();
     }
     const resize = () => {
       const w = canvas.clientWidth;
@@ -98,6 +126,7 @@
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      composer.render();
     };
     window.addEventListener("resize", resize);
     resize();
