@@ -13,7 +13,11 @@ const { title, skills, color } = Astro.props as Props;
     {
       skills.map((skill) => (
         <li class="flex items-center gap-4">
-          <img class="h-6" alt={skill.label} src={`./icons/${skill.icon}`} />
+          <img
+            class="h-6"
+            alt={skill.label}
+            src={`./portfolio/icons/${skill.icon}`}
+          />
           <span>{skill.label}</span>
         </li>
       ))
