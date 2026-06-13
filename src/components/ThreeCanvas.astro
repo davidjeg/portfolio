@@ -2,8 +2,7 @@
 
 ---
 
-<div id="canvas_container" class="bg-zinc-950 h-full w-full order-1 md:order-2">
-</div>
+<div id="canvas_container" class="bg-zinc-950 flex-1 order-1 md:order-2"></div>
 
 <script>
   import * as THREE from "three";
@@ -126,6 +125,7 @@
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      composer.setSize(w, h);
       composer.render();
     };
     window.addEventListener("resize", resize);
