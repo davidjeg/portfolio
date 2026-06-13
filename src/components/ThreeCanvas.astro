@@ -2,7 +2,8 @@
 
 ---
 
-<div id="canvas_container" class="bg-zinc-950 h-full w-full flex-1"></div>
+<div id="canvas_container" class="bg-zinc-950 h-full w-full order-1 md:order-2">
+</div>
 
 <script>
   import * as THREE from "three";
@@ -16,8 +17,7 @@
   import { RectAreaLightUniformsLib } from "three/addons/lights/RectAreaLightUniformsLib.js";
   const canvas = document.querySelector<HTMLDivElement>("#canvas_container");
   const loader = new GLTFLoader();
-  const gui = new GUI();
-  const cameraFolder = gui.addFolder("Camera");
+  //const gui = new GUI();
 
   RectAreaLightUniformsLib.init();
 
@@ -43,7 +43,7 @@
     composer.setSize(canvas.clientWidth, canvas.clientHeight);
 
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     canvas.appendChild(renderer.domElement);
     const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -81,38 +81,37 @@
 
     const spotLight = new THREE.SpotLight(0xffffff, 1000);
     spotLight.position.set(-5, 10, -3);
-    const spotlightPoitions = gui.addFolder("LightPos");
-    spotlightPoitions.add(spotLight.position, "x", -100, 100, 0.001);
-    spotlightPoitions.add(spotLight.position, "y", -100, 100, 0.001);
-    spotlightPoitions.add(spotLight.position, "z", -100, 100, 0.001);
-    spotlightPoitions.open();
+    //   const spotlightPoitions = gui.addFolder("LightPos");
+    //   spotlightPoitions.add(spotLight.position, "x", -100, 100, 0.001);
+    //   spotlightPoitions.add(spotLight.position, "y", -100, 100, 0.001);
+    //   spotlightPoitions.add(spotLight.position, "z", -100, 100, 0.001);
+    //   spotlightPoitions.open();
+    //  spotlightPoitions.add(spotLight, "distance", -100, 100, 0.001);
+    //  spotlightPoitions.add(spotLight, "angle", -100, 100, 0.001);
+    //  spotlightPoitions.add(spotLight.target.position, "x", -100, 100, 0.01);
+    //  spotlightPoitions.add(spotLight.target.position, "y", -100, 100, 0.01);
+    //  spotlightPoitions.add(spotLight.target.position, "z", -100, 100, 0.01);
 
     spotLight.angle = Math.PI / 8;
     spotLight.distance = 15;
-    spotlightPoitions.add(spotLight, "distance", -100, 100, 0.001);
-    spotlightPoitions.add(spotLight, "angle", -100, 100, 0.001);
 
     spotLight.castShadow = true;
 
     // 🔥 IMPORTANTE: target
     spotLight.target.position.set(0, -8, 0.68);
-    spotlightPoitions.add(spotLight.target.position, "x", -100, 100, 0.01);
-    spotlightPoitions.add(spotLight.target.position, "y", -100, 100, 0.01);
-    spotlightPoitions.add(spotLight.target.position, "z", -100, 100, 0.01);
     scene.add(spotLight.target);
 
     scene.add(spotLight);
 
-    const helper = new THREE.AxesHelper();
-    scene.add(helper);
+    //const helper = new THREE.AxesHelper();
     scene.background = new THREE.Color(0x09090b);
-    cameraFolder.add(camera.position, "x", -100, 100, 0.1);
-    cameraFolder.add(camera.position, "y", -100, 100, 0.1);
-    cameraFolder.add(camera.position, "z", -100, 100, 0.1);
-    cameraFolder.open();
+    // cameraFolder.add(camera.position, "x", -100, 100, 0.1);
+    // cameraFolder.add(camera.position, "y", -100, 100, 0.1);
+    // cameraFolder.add(camera.position, "z", -100, 100, 0.1);
+    // cameraFolder.open();
     camera.position.set(-6.5, 6, -6.5);
     controls.update();
-    scene.add(helper);
+    //scene.add(helper);
 
     function animate() {
       requestAnimationFrame(animate);
@@ -126,6 +125,7 @@
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       composer.render();
     };
     window.addEventListener("resize", resize);
