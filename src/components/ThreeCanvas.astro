@@ -2,7 +2,7 @@
 
 ---
 
-<div id="canvas_container" class="bg-zinc-950 flex-1 order-1 md:order-2"></div>
+<div id="canvas_container" class="flex-1"></div>
 
 <script>
   import * as THREE from "three";
@@ -48,14 +48,14 @@
 
     let model: any;
     const video = document.createElement("video");
-    video.src = "./streetfighter.mp4";
+    video.src = "./portfolio/streetfighter.mp4";
     video.loop = true;
     video.muted = true;
     video.play();
     let videoTexture = new THREE.VideoTexture(video);
     videoTexture.flipY = false;
     loader.load(
-      "./model.glb",
+      "./portfolio/model.glb",
       (gltf) => {
         model = gltf.scene;
 
@@ -127,6 +127,7 @@
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       composer.setSize(w, h);
       composer.render();
+      console.log(canvas.clientWidth, canvas.clientHeight);
     };
     window.addEventListener("resize", resize);
     resize();
