@@ -44,14 +44,14 @@
 
     let model: any;
     const video = document.createElement("video");
-    video.src = "./portfolio/streetfighter.mp4";
+    video.src = "./streetfighter.mp4";
     video.loop = true;
     video.muted = true;
     video.play();
     let videoTexture = new THREE.VideoTexture(video);
     videoTexture.flipY = false;
     loader.load(
-      "./portfolio/model.glb",
+      "./model.glb",
       (gltf) => {
         model = gltf.scene;
         model.position.set(-2, 0, 0);
