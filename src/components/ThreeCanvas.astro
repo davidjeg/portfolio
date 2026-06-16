@@ -1,4 +1,4 @@
-<div id="canvas_container" class="flex-1"></div>
+<div id="canvas_container" class="flex-1 min-h-[300px] md:min-h-0"></div>
 
 <script>
   import * as THREE from "three";
@@ -20,7 +20,7 @@
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
-      window.innerWidth / window.innerHeight,
+      canvas.clientWidth / canvas.clientHeight,
       0.1,
       1000,
     );
@@ -56,6 +56,7 @@
         model = gltf.scene;
         model.position.set(-2, 0, 0);
 
+        camera.lookAt(model.position);
         scene.add(model);
         const screenArcade = model.getObjectByName("maquina_arcade_pantalla");
         if (screenArcade) {
@@ -104,7 +105,6 @@
     // cameraFolder.add(camera.position, "z", -100, 100, 0.1);
     // cameraFolder.open();
     camera.position.set(-6, 10, -4);
-    camera.lookAt(0, 0, 0);
     controls.update();
     const helper = new THREE.AxesHelper();
     scene.add(helper);
@@ -116,31 +116,37 @@
       composer.render();
     }
 
-    const initialAspect = window.innerWidth / window.innerHeight;
-    const initialFov = 75;
-
     function resize() {
       if (canvas) {
         const w = canvas.clientWidth;
         const h = canvas.clientHeight;
-        const aspect = w / h;
-        camera.fov =
-          2 *
-          Math.atan(
-            Math.tan((initialFov * Math.PI) / 360) * (initialAspect / aspect),
-          ) *
-          (180 / Math.PI);
 
-        camera.aspect = aspect;
+        const windowW = window.innerWidth;
+
+        const minWidth = 600;
+        const maxWidth = 1920;
+
+        // valor entre 0 y 1
+        const t = Math.max(
+          0,
+          Math.min(1, (windowW - minWidth) / (maxWidth - minWidth)),
+        );
+        camera.aspect = w / h;
+        if (windowW < 1100) {
+          camera.position.set(0, 10, -6);
+          model.position.set(2 * t, 0, 0);
+        } else {
+          camera.position.set(0, 10, -4);
+          model.position.set(-2 * t, 0, 0);
+        }
         camera.updateProjectionMatrix();
 
         renderer.setSize(w, h);
+        composer.setSize(w, h);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       }
     }
-    const observer = new ResizeObserver(() => {
-      resize();
-    });
-    observer.observe(canvas);
+    window.addEventListener("resize", resize);
     animate();
   }
 </script>
