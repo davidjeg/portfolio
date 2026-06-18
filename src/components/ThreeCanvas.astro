@@ -28,7 +28,7 @@
 
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      0.04,
+      0.1,
       0.01,
       0.2,
     );
@@ -54,7 +54,7 @@
       "./model.glb",
       (gltf) => {
         model = gltf.scene;
-        model.position.set(-2, 0, 0);
+        model.position.set(-5, 0, 0);
 
         camera.lookAt(model.position);
         scene.add(model);
@@ -75,7 +75,7 @@
       },
     );
 
-    const spotLight = new THREE.SpotLight(0xffffff, 1000);
+    const spotLight = new THREE.SpotLight(0xffffff, 500);
     spotLight.position.set(-5, 10, -3);
     //   const spotlightPoitions = gui.addFolder("LightPos");
     //   spotlightPoitions.add(spotLight.position, "x", -100, 100, 0.001);
@@ -88,15 +88,13 @@
     //  spotlightPoitions.add(spotLight.target.position, "y", -100, 100, 0.01);
     //  spotlightPoitions.add(spotLight.target.position, "z", -100, 100, 0.01);
 
-    spotLight.angle = Math.PI / 8;
+    spotLight.angle = Math.PI / 6;
     spotLight.distance = 15;
 
     spotLight.castShadow = true;
 
-    // 🔥 IMPORTANTE: target
-    spotLight.target.position.set(0, -2, 0.68);
+    spotLight.target.position.set(-3, 0, 0);
     scene.add(spotLight.target);
-
     scene.add(spotLight);
 
     scene.background = new THREE.Color(0x09090b);
@@ -104,7 +102,7 @@
     // cameraFolder.add(camera.position, "y", -100, 100, 0.1);
     // cameraFolder.add(camera.position, "z", -100, 100, 0.1);
     // cameraFolder.open();
-    camera.position.set(-6, 10, -4);
+    camera.position.set(-8, 8, -5);
     controls.update();
     const helper = new THREE.AxesHelper();
     scene.add(helper);
@@ -123,7 +121,7 @@
 
         const windowW = window.innerWidth;
 
-        const minWidth = 600;
+        const minWidth = 400;
         const maxWidth = 1920;
 
         // valor entre 0 y 1
@@ -132,13 +130,17 @@
           Math.min(1, (windowW - minWidth) / (maxWidth - minWidth)),
         );
         camera.aspect = w / h;
-        if (windowW < 1100) {
-          camera.position.set(0, 10, -6);
-          model.position.set(2 * t, 0, 0);
-        } else {
-          camera.position.set(0, 10, -4);
-          model.position.set(-2 * t, 0, 0);
+        if (windowW < 1200) {
+          camera.position.set(-8, 8, -5);
+          model.position.set(-4, 0, 0);
+          spotLight.target.position.set(-1, 0, 0);
         }
+        camera.position.set(-8, 8, -5);
+        model.position.set(-4, 0, 0);
+        spotLight.target.position.set(-2, 0, 0);
+
+        controls.target.set(0, 0, 0);
+        controls.update();
         camera.updateProjectionMatrix();
 
         renderer.setSize(w, h);
