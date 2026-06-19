@@ -17,14 +17,14 @@ import Footer from "../components/Footer.astro";
   <Navbar />
   <Container
     id="home"
-    class="mt-32 flex md:flex-row flex-col overflow-hidden h-140"
+    class="mt-32 flex md:flex-row flex-col gap-4 overflow-hidden h-140"
   >
     <HeroText />
     <ThreeCanvas />
   </Container>
   <div class="min-h-screen relative overflow-hidden">
     <div id="canvas" class="absolute inset-0 -z-10"></div>
-    <div class="bg-zinc-950/50 backdrop-blur-3xl relative z-10">
+    <div class="bg-zinc-950/70 backdrop-blur-3xl relative z-10">
       <About />
       <Skills />
       <Contact />
