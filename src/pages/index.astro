@@ -22,7 +22,7 @@ import Footer from "../components/Footer.astro";
     <HeroText />
     <ThreeCanvas />
   </Container>
-  <div class="min-h-screen relative">
+  <div class="min-h-screen relative overflow-hidden">
     <div id="canvas" class="absolute inset-0 -z-10"></div>
     <div class="bg-zinc-950/50 backdrop-blur-3xl relative z-10">
       <About />
@@ -71,8 +71,6 @@ import Footer from "../components/Footer.astro";
     scene.add(camera);
     renderer.render(scene, camera);
 
-
-
     const material = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
@@ -81,8 +79,6 @@ import Footer from "../components/Footer.astro";
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
     });
-
-
 
     const light = new THREE.AmbientLight(0xffffff, 1);
     scene.add(light);
@@ -173,13 +169,18 @@ import Footer from "../components/Footer.astro";
 
       composer.render();
     }
-
-    window.addEventListener("resize", () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+    function onResize() {
+      camera.aspect = canvasW / canvasH;
       camera.updateProjectionMatrix();
 
+      renderer.setSize(canvasW, canvasH);
+      composer.setSize(canvasW, canvasH);
+
+      bloomPass.setSize(canvasW, canvasH);
       bounds = getBounds(camera, distance);
-    });
+    }
+
+    window.addEventListener("resize", onResize);
 
     animate();
   }
