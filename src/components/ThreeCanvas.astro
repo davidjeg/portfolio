@@ -1,4 +1,4 @@
-<div id="canvas_container" class="flex-1 min-h-[300px] md:min-h-0"></div>
+<div id="canvas_container" class="flex-1 min-h-75 md:min-h-0"></div>
 
 <script>
   import * as THREE from "three";
@@ -44,14 +44,14 @@
 
     let model: any;
     const video = document.createElement("video");
-    video.src = "./streetfighter.mp4";
+    video.src = "./portfolio/streetfighter.mp4";
     video.loop = true;
     video.muted = true;
     video.play();
     let videoTexture = new THREE.VideoTexture(video);
     videoTexture.flipY = false;
     loader.load(
-      "./model.glb",
+      "./portfolio/model.glb",
       (gltf) => {
         model = gltf.scene;
         model.position.set(-5, 0, 0);
@@ -121,14 +121,6 @@
 
         const windowW = window.innerWidth;
 
-        const minWidth = 400;
-        const maxWidth = 1920;
-
-        // valor entre 0 y 1
-        const t = Math.max(
-          0,
-          Math.min(1, (windowW - minWidth) / (maxWidth - minWidth)),
-        );
         camera.aspect = w / h;
         if (windowW < 1200) {
           camera.position.set(-8, 8, -5);
