@@ -15,9 +15,9 @@ const contactInputs: ContactFormField[] = [
 <Container class="py-16 md:py-24" id="contact">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {/* LEFT */}
-    <div class="flex flex-col justify-center">
+    <div class="flex flex-col justify-center gap-4">
+      <p class="text-4xl font-bold">Get In Touch</p>
       <div>
-        <p class="text-4xl font-bold mb-6">Get In Touch</p>
         <div class="flex items-center gap-4 mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +53,7 @@ const contactInputs: ContactFormField[] = [
             ></path>
           </svg>
           <a
-            class="underline text-pink-500"
+            class="underline text-pink-500 hover:no-underline transition"
             href="mailto:davideg96@outlook.com?subject=Porfolio Contact"
             >contact@david-encarnacion.com</a
           >
@@ -62,7 +62,7 @@ const contactInputs: ContactFormField[] = [
     </div>
     <form
       id="contact-form"
-      class="flex flex-col gap-6 bg-zinc-900/50 p-6 rounded-lg"
+      class="flex flex-col gap-6 bg-zinc-900/50 border-zinc-800/40 border p-6 rounded-lg"
     >
       {
         contactInputs.map(({ label, name, type, placeholder }) => (
@@ -74,7 +74,7 @@ const contactInputs: ContactFormField[] = [
               placeholder={placeholder}
               type={type}
               class="p-4 outline-none 
-        border-2 bg-zinc-950 border-zinc-400 rounded-md hover:border-zinc-500 focus:border-zinc-700 transition"
+                     border-2 bg-zinc-950/70 border-zinc-700 rounded-md hover:border-zinc-500 focus:border-blue-500 transition"
             />
           </label>
         ))
@@ -84,14 +84,14 @@ const contactInputs: ContactFormField[] = [
         <textarea
           minlength="10"
           required
-          class="resize-none outline-none rounded-md p-4 border-2 h-28 border-zinc-400
-        hover:border-zinc-500 focus:border-zinc-700 transition bg-zinc-950"
+          class="resize-none outline-none rounded-md p-4 border-2 h-28 border-zinc-700
+        hover:border-zinc-500 focus:border-blue-500 transition bg-zinc-950"
           placeholder="Message..."
           name="message"></textarea>
       </label>
       <button
         type="submit"
-        class="p-4 rounded-md bg-blue-500 hover:bg-blue-600 active:bg-blue-700 transition"
+        class="p-4 rounded-md bg-blue-500 hover:bg-blue-500/80 active:bg-blue-500 transition"
         >Send message</button
       >
     </form>
