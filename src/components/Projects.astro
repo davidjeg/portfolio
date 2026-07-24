@@ -1,0 +1,20 @@
+---
+import Container from "./Container.astro";
+import CardProject from '../components/CardProject.astro'
+const cards = [
+  {id:1,name:"Pokedex",description: "asdlfsdfk",url:"https://davidjeg.github.io/pokedex/"},
+  {id:2,name:"Linkme",description: "asdlfsdfk",url:"https://cassie-links.vercel.app/"},
+  {id:3,name:"WatsAppClone",description: "asdlfsdfk",url:"https://www.figma.com/design/90qvxUz7PvCA2Vw6wvbqgc/Clon-Whatsapp---David-Encarnacion?m=auto&t=g1pBFbfHUFgIBNom-6"},
+  {id:4,name:"Landing Page",description: "asdlfsdfk",url:"https://www.figma.com/design/HfYzQ4GduIca1wJUycNM8Z/del-boceto-al-wirframe-y-mockup_David-Encarnacion?m=auto&t=g1pBFbfHUFgIBNom-6"},
+  
+]
+---
+
+
+<Container id="about" class="md:py-24 py-16">
+      <h2 class="text-3xl font-semibold mb-4">Projects</h2>
+      <div class="flex gap-4 flex-wrap">
+        {cards.map(({id,name,description})=>(<CardProject id={id} name={name} description="asd"/>))}
+
+      </div>
+</Container>
