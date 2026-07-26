@@ -11,10 +11,10 @@ const cards = [
 ---
 
 
-<Container id="about" class="md:py-24 py-16">
+<Container id="projects" class="md:py-24 py-16">
       <h2 class="text-3xl font-semibold mb-4">Projects</h2>
-      <div class="flex gap-4 flex-wrap">
-        {cards.map(({id,name,description})=>(<CardProject id={id} name={name} description="asd"/>))}
+      <div class="grid md:grid-cols-4 gap-6 grid-cols-2">
+        {cards.map(({id,name,description,url})=>(<CardProject id={id} name={name} description="asd" url={url}/>))}
 
       </div>
 </Container>

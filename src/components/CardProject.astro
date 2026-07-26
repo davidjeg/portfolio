@@ -3,14 +3,15 @@ interface Props{
     id: number
     name: string
     description: string
+    url:string
 }
-const {id,name,description} = Astro.props as Props
+const {id,name,description,url} = Astro.props as Props
 ---
 
-<a class="grow basis-40 cursor-pointer rounded-xl">
-    <div class="w-full h-60 rounded-md overflow-hidden">
-    <img class="w-full h-full object-cover" src={`./projects/project-${id}.png`} alt="project"/>
+<a href={url} class="cursor-pointer rounded-xl hover:scale-105 transition-transform duration-300">
+    <div class="h-60 rounded-md overflow-hidden">
+    <img class="h-full w-full object-cover object-top" src={`./projects/project-${id}.png`} alt="project"/>
     </div>
-    <p class="text-center mt-3">{name}</p>
+    <p class="text-renter mt-3 font-semibold">{name}</p>
 
 </a>
